@@ -15,7 +15,8 @@ public class MonitoringController {
     private final MonitoringRepository monitoringRepository;
 
     @GetMapping("/monitoring")
-    public ResponseEntity<List<MonitoringEntity>> getMonitoringData(String roadControllerId) {
-        return null;
+    public ResponseEntity<List<MonitoringEntity>> getMonitoringData() {
+        return ResponseEntity
+                .ok(monitoringRepository.findAll());
     }
 }
