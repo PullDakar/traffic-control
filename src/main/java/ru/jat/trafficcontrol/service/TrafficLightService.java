@@ -30,6 +30,24 @@ public class TrafficLightService {
 
     @Async
     @Scheduled(fixedDelay = 1_000)
+    public void schedule33052() {
+        saveTrafficLightStatus(33052L);
+    }
+
+    @Async
+    @Scheduled(fixedDelay = 1_000)
+    public void schedule33053() {
+        saveTrafficLightStatus(33053L);
+    }
+
+    @Async
+    @Scheduled(fixedDelay = 1_000)
+    public void schedule33054() {
+        saveTrafficLightStatus(33054L);
+    }
+
+    @Async
+    @Scheduled(fixedDelay = 1_000)
     public void schedule33055() {
         saveTrafficLightStatus(33055L);
     }
