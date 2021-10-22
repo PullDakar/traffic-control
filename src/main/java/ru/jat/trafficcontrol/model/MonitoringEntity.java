@@ -15,10 +15,16 @@ public class MonitoringEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "road_controller_id")
-    private int roadControllerId;
+    private long roadControllerId;
+
+    @Column(name = "phase_id")
+    private long phaseId;
+
+    @Column(name = "program_id")
+    private long programId;
 
     @CreationTimestamp
     @Column(name = "switch_moment")
