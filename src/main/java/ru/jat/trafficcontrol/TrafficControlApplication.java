@@ -22,11 +22,11 @@ public class TrafficControlApplication {
         SpringApplication.run(TrafficControlApplication.class, args);
     }
 
-    @Scheduled(fixedDelay = 100000)
+//    @Scheduled(fixedDelay = 100000)
     public void schedule() {
-        MonitoringEntity monitoringEntity = new MonitoringEntity();
-        monitoringEntity.setPhaseDuration(12);
-        monitoringEntity.setRoadControllerId(1);
-        monitoringRepository.save(monitoringEntity);
+//        MonitoringEntity monitoringEntity = new MonitoringEntity();
+//        monitoringEntity.setPhaseDuration(12);
+//        monitoringEntity.setRoadControllerId(1);
+//        monitoringRepository.save(monitoringEntity);
     }
 }

@@ -2,9 +2,10 @@ package ru.jat.trafficcontrol.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -19,8 +20,9 @@ public class MonitoringEntity {
     @Column(name = "road_controller_id")
     private int roadControllerId;
 
+    @CreationTimestamp
     @Column(name = "switch_moment")
-    private Date switchMoment;
+    private Timestamp switchMoment;
 
     @Column(name = "phase_duration")
     private long phaseDuration;
