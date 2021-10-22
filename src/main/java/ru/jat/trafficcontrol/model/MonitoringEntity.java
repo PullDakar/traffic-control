@@ -1,7 +1,6 @@
 package ru.jat.trafficcontrol.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +9,10 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @Setter
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "monitoring")
 public class MonitoringEntity {
     @Id
