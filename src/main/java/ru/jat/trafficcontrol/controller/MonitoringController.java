@@ -3,7 +3,6 @@ package ru.jat.trafficcontrol.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.jat.trafficcontrol.model.MonitoringEntity;
 import ru.jat.trafficcontrol.repository.MonitoringRepository;
@@ -19,10 +18,5 @@ public class MonitoringController {
     public ResponseEntity<List<MonitoringEntity>> getMonitoringData() {
         return ResponseEntity
                 .ok(monitoringRepository.findAll());
-    }
-
-    @PostMapping("/program")
-    public void changeProgram(Long roadControllerId) {
-
     }
 }
