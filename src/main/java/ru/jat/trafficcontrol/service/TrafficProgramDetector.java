@@ -69,13 +69,13 @@ public class TrafficProgramDetector {
                                         programExists = true;
                                         buffer.remove(candidate);
                                         break;
-                                    } else if (Math.pow(program.getFirstPhaseDuration() - candidatePhases[0], 2) >= ANOMALY_THRESHOLD ||
+                                    } /*else if (Math.pow(program.getFirstPhaseDuration() - candidatePhases[0], 2) >= ANOMALY_THRESHOLD ||
                                             Math.pow(program.getSecondPhaseDuration() - candidatePhases[1], 2) >= ANOMALY_THRESHOLD ||
                                             Math.pow(program.getThirdPhaseDuration() - candidatePhases[2], 2) >= ANOMALY_THRESHOLD) {
                                         program.setAnomaly(true);
                                         program.setWeight(0);
                                         roadControllerProgramRepository.save(program);
-                                    }
+                                    }*/
                                 }
                             }
 
