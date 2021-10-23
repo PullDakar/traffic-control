@@ -27,7 +27,7 @@ public class RoadController {
     private final AtomicInteger programIdAtomic = new AtomicInteger(1);
 
     @PostMapping("/program/{programId}/apply")
-    public ResponseEntity<Void> changeProgram(@RequestParam Long roadControllerId, @RequestParam Timestamp changeTime, @PathVariable("programId") Long programId) {
+    public ResponseEntity<Void> changeProgram(@RequestParam Long roadControllerId, @RequestParam Timestamp changeTime, @PathVariable("programId") Integer programId) {
         if (customPhaseProgramRequestMap.containsKey(programId)) {
             var changeProgramOrder = ChangeProgramOrder.builder()
                     .newProgramId(programId)

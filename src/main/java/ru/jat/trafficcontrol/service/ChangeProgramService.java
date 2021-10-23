@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Service
@@ -84,12 +83,13 @@ public class ChangeProgramService {
         if (changeProgramOrder != null) {
             var currentTime = Timestamp.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
             if (changeProgramOrder.getChangeTime().after(currentTime) && changeProgramOrder.getChangeTime().before(Timestamp.valueOf(currentTime.toLocalDateTime().plusMinutes(5L)))) {
-                var c = roadControllerProgramRepository.findTop1ByRoadControllerIdAndWeightGreaterThanEqualOrderByUpdatedDesc(id, 3).orElse(RoadControllerProgramEntity.builder()
+                var currentProgram = roadControllerProgramRepository.findTop1ByRoadControllerIdAndWeightGreaterThanEqualOrderByUpdatedDesc(id, 3).orElse(RoadControllerProgramEntity.builder()
                         .firstPhaseDuration(10)
                         .secondPhaseDuration(0)
-                        .firstPhaseDuration(0)
+                        .thirdPhaseDuration(0)
                         .build());
-                var maxPhaseTime = Map.of(1L, c.getFirstPhaseDuration(), 2L, c.getSecondPhaseDuration(), 3L, c.getThirdPhaseDuration()).entrySet().stream().max(Map.Entry.comparingByValue()).get();
+                log.info(currentProgram.toString());
+                var maxPhaseTime = Map.of(1L, currentProgram.getFirstPhaseDuration(), 2L, currentProgram.getSecondPhaseDuration(), 3L, currentProgram.getThirdPhaseDuration()).entrySet().stream().max(Map.Entry.comparingByValue()).get();
                 if (trafficLightService.getTrafficLightStatus(id).getCurrentPhaseId() != maxPhaseTime.getKey()) {
                     boolean maxPhaseFlag = true;
                     while (maxPhaseFlag) {
