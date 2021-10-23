@@ -26,7 +26,7 @@ public class ChangeProgramOrder {
     @Column(name = "new_program_id")
     private long newProgramId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:sss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "change_time")
     private Timestamp changeTime;
 }

@@ -2,6 +2,7 @@ package ru.jat.trafficcontrol.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -109,7 +110,11 @@ public class TrafficLightService {
         return restTemplate.getForObject("/" + id + "/status", TrafficLightStatus.class);
     }
 
-    public CustomPhaseProgramResponse changeProgram(Long id,CustomPhaseProgramRequest customPhaseProgramRequest) {
-        return restTemplate.postForObject("/" + id +"/custom_phase_program", customPhaseProgramRequest, CustomPhaseProgramResponse.class);
+    public CustomPhaseProgramResponse changeProgram(Long id, CustomPhaseProgramRequest customPhaseProgramRequest) {
+        return restTemplate.postForObject("/" + id + "/custom_phase_program", customPhaseProgramRequest, CustomPhaseProgramResponse.class);
+    }
+
+    public ResponseEntity setLocal(Long id) {
+        return restTemplate.postForObject("/" + id + "/set_local", null, ResponseEntity.class);
     }
 }
