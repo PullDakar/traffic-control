@@ -2,6 +2,7 @@ package ru.jat.trafficcontrol.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class TrafficLightService {
 
     private final RestTemplate restTemplate;
     private final MonitoringRepository monitoringRepository;
+    private final ApplicationEventPublisher publisher;
     private final Map<Long, TrafficLightStatus> trafficLightStatusMap = new ConcurrentHashMap<>(10);
 
     @Async
@@ -95,6 +97,7 @@ public class TrafficLightService {
                         .roadControllerId(id)
                         .build();
                 monitoringRepository.save(monitoringEntity);
+                publisher.publishEvent(monitoringEntity);
                 trafficLightStatusMap.put(id, trafficLightStatus);
                 log.info(monitoringEntity.toString());
             }
