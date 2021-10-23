@@ -12,6 +12,9 @@ import ru.jat.trafficcontrol.service.TrafficLightService;
 import java.sql.Timestamp;
 import java.util.Map;
 
+/**
+ * Контроллер для взаимодействия с дорожной инфраструктурой
+ */
 @Slf4j
 @RestController
 @RequiredArgsConstructor

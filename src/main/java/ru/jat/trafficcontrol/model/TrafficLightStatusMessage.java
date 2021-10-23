@@ -18,20 +18,41 @@ public class TrafficLightStatusMessage {
     @JsonProperty("rc_id")
     private Long rcId;
 
-    private Long prevStatus; //кодовое обознание предыдущего статуса
+    /**
+     * кодовое обознание предыдущего статуса
+     */
+    private Long prevStatus;
 
-    private Long nextStatus; //кодовое обозначение следующего статуса
+    /**
+     * кодовое обозначение следующего статуса
+     */
+    private Long nextStatus;
 
     private Long source;
 
-    private Long mode; //кодовое обозначение режима
+    /**
+     * кодовое обозначение режима
+     */
+    private Long mode;
 
-    private Long prevPhaseID; //номер предыдущей фазы сек. назад
+    /**
+     * номер предыдущей фазы сек. назад
+     */
+    private Long prevPhaseID;
 
-    private Long nextPhaseID; //номер следующей фазы через сек
+    /**
+     * номер следующей фазы через сек
+     */
+    private Long nextPhaseID;
 
-    private Long prevProgramID; //номер программы на предыдущем цикле
+    /**
+     * номер программы на предыдущем цикле
+     */
+    private Long prevProgramID;
 
-    private Long nextProgramID; //номер программы на следующей цикле
+    /**
+     * номер программы на следующей цикле
+     */
+    private Long nextProgramID;
 
 }

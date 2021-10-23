@@ -24,8 +24,11 @@ public class TrafficLightInfo {
     @JsonProperty("rc_updated_at")
     private LocalDateTime rcUpdatedAt;
 
+    /**
+     * внешний номер объекта (в данном случае совпадает с id)
+     */
     @JsonProperty("num_tl")
-    private Long numTl; //внешний номер объекта (в данном случае совпадает с id)
+    private Long numTl;
 
     private String name;
 

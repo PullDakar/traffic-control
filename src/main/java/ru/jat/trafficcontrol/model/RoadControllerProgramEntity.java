@@ -5,6 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * POJO отражающее сущность в БД, обеспечивающую CRUD операции для программ ДК
+ */
 @Entity
 @Getter
 @Setter
