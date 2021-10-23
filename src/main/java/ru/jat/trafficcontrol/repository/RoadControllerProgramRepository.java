@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.jat.trafficcontrol.model.RoadControllerProgramEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Абстракция для взаимодействия с БД с таблицей {@link RoadControllerProgramEntity}
@@ -21,11 +22,6 @@ public interface RoadControllerProgramRepository extends JpaRepository<RoadContr
      */
     List<RoadControllerProgramEntity> findAllByRoadControllerId(Long roadControllerId);
 
-    /**
-     * Поиск программы, запущенной на контроллере
-     *
-     * @return программа, запущенная на контроллере
-     */
-    @Query("select rcpe from RoadControllerProgramEntity rcpe where rcpe.weight >= 3 order by rcpe.updated desc")
-    RoadControllerProgramEntity findCurrentProgram();
+    @Query("select rcpe from RoadControllerProgramEntity rcpe where rcpe.weight >= 3 and rcpe.roadControllerId = ?1 order by rcpe.updated desc")
+    Optional<RoadControllerProgramEntity> findCurrentProgram(Long roadControllerId);
 }

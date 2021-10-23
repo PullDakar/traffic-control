@@ -28,61 +28,61 @@ public class TrafficLightService {
     private final Map<Long, TrafficLightStatus> trafficLightStatusMap = new ConcurrentHashMap<>(10);
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33051() {
         saveTrafficLightStatus(33051L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33052() {
         saveTrafficLightStatus(33052L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33053() {
         saveTrafficLightStatus(33053L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33054() {
         saveTrafficLightStatus(33054L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33055() {
         saveTrafficLightStatus(33055L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33056() {
         saveTrafficLightStatus(33056L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33057() {
         saveTrafficLightStatus(33057L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33058() {
         saveTrafficLightStatus(33058L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33059() {
         saveTrafficLightStatus(33059L);
     }
 
     @Async
-    @Scheduled(fixedDelay = 1_000)
+    @Scheduled(fixedDelay = 500)
     public void schedule33060() {
         saveTrafficLightStatus(33060L);
     }
@@ -109,7 +109,7 @@ public class TrafficLightService {
         }
     }
 
-    private TrafficLightStatus getTrafficLightStatus(Long id) {
+    public TrafficLightStatus getTrafficLightStatus(Long id) {
         return restTemplate.getForObject("/" + id + "/status", TrafficLightStatus.class);
     }
 
@@ -119,5 +119,13 @@ public class TrafficLightService {
 
     public ResponseEntity setLocal(Long id) {
         return restTemplate.postForObject("/" + id + "/set_local", null, ResponseEntity.class);
+    }
+
+    public void holdPhase(Long id, Long phaseId) {
+        restTemplate.postForObject("/" + id + "/keep_phase/" + phaseId, null, ResponseEntity.class);
+    }
+
+    public void unholdPhase(Long id) {
+        restTemplate.postForObject("/" + id + "/cancel_keep_phase", null, ResponseEntity.class);
     }
 }
