@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.jat.trafficcontrol.model.CustomPhaseProgramRequest;
+import ru.jat.trafficcontrol.model.Phase;
 import ru.jat.trafficcontrol.model.RoadControllerProgramEntity;
 import ru.jat.trafficcontrol.repository.ChangeProgramOrderRepository;
 import ru.jat.trafficcontrol.repository.RoadControllerProgramRepository;
@@ -81,7 +82,7 @@ public class ChangeProgramService {
         if (changeProgramOrder != null) {
             var currentTime = Timestamp.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
             if (changeProgramOrder.getChangeTime().after(currentTime) && changeProgramOrder.getChangeTime().before(Timestamp.valueOf(currentTime.toLocalDateTime().plusMinutes(5L)))) {
-                var c = roadControllerProgramRepository.findCurrentProgram(id).orElse(RoadControllerProgramEntity.builder()
+                var c = roadControllerProgramRepository.findTop1ByRoadControllerIdAndWeightGreaterThanEqualOrderByUpdatedDesc(id, 3).orElse(RoadControllerProgramEntity.builder()
                         .firstPhaseDuration(10)
                         .secondPhaseDuration(0)
                         .firstPhaseDuration(0)
@@ -98,6 +99,7 @@ public class ChangeProgramService {
                             var program = customPhaseProgramRequestMap.get(changeProgramOrder.getNewProgramId());
                             program.setStartPhaseId(maxPhaseTime.getKey());
                             program.setTimeStartSync(status.getTime() + maxPhaseTime.getValue() - 2L);
+                            program.setTCycle(program.getPhases().stream().mapToLong(Phase::getTOsn).sum() + program.getPhases().stream().mapToLong(Phase::getTProm).sum());
                             var customPhaseProgramResponse = trafficLightService.changeProgram(id, program);
                             trafficLightService.unholdPhase(id); //unhold
                             log.info(customPhaseProgramResponse.toString());
