@@ -14,13 +14,13 @@ import java.util.List;
 public class CustomPhaseProgramRequest {
 
     @JsonProperty("start_phase_id")
-    private Long startPhaseId;
+    private Long startPhaseId; //фаза, с которой начинается цикл
 
     @JsonProperty("time_start_sync")
-    private Long timeStartSync;
+    private Long timeStartSync; //время, когда необходимо включить первую фазу новой программы
 
     @JsonProperty("t_cycle")
-    private Long tCycle;
+    private Long tCycle; //время цикла
 
-    private List<Phase> phases;
+    private List<Phase> phases; //фазы данной программы
 }
