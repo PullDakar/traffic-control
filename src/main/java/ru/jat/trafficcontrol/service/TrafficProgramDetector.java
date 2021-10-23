@@ -12,17 +12,38 @@ import ru.jat.trafficcontrol.repository.RoadControllerProgramRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, реализующий логику выявления программ, запущенных на контроллере
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class TrafficProgramDetector {
+    /**
+     * Абстракция для взаимодействия с БД с таблицей {@link RoadControllerProgramEntity}
+     */
     private final RoadControllerProgramRepository roadControllerProgramRepository;
-
+    /**
+     * Буфер для наполнения программ-кандидатов
+     */
     private final List<ProgramCandidate> buffer = new ArrayList<>();
 
+    /**
+     * Допустимое отклонение
+     */
     private final static int POSSIBLE_PHASE_DIFF = 3 * 3;
+    /**
+     * Аномальное отклонение
+     */
     private final static int ANOMALY_THRESHOLD = 30 * 30;
 
+    /**
+     * Слушатель событий изменений фазы
+     *
+     * Реализует основную логику отсеивания программ от программ-кандидатов и программ-аномалий
+     *
+     * @param monitoringEntity - сущность, описывающая фазу мониторинга
+     */
     @EventListener
     public void onPhaseChange(MonitoringEntity monitoringEntity) {
         final var roadControllerId = monitoringEntity.getRoadControllerId();
