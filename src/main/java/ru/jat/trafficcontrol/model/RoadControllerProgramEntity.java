@@ -30,4 +30,6 @@ public class RoadControllerProgramEntity {
     private long thirdPhaseDuration;
     @Column(name = "weight")
     private int weight;
+    @Column(name = "anomaly")
+    private boolean anomaly;
 }

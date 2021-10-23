@@ -21,6 +21,7 @@ public class TrafficProgramDetector {
     private final List<ProgramCandidate> buffer = new ArrayList<>();
 
     private final static int POSSIBLE_PHASE_DIFF = 3 * 3;
+    private final static int ANOMALY_THRESHOLD = 8 * 8;
 
     @EventListener
     public void onPhaseChange(MonitoringEntity monitoringEntity) {
@@ -60,7 +61,6 @@ public class TrafficProgramDetector {
 
                                     long[] candidatePhases = candidate.getPhases();
 
-                                    log.info("!!!!! Trying to choose. If it only candidate or new task");
                                     if (Math.pow(program.getFirstPhaseDuration() - candidatePhases[0], 2) <= POSSIBLE_PHASE_DIFF &&
                                             Math.pow(program.getSecondPhaseDuration() - candidatePhases[1], 2) <= POSSIBLE_PHASE_DIFF &&
                                             Math.pow(program.getThirdPhaseDuration() - candidatePhases[2], 2) <= POSSIBLE_PHASE_DIFF) {
@@ -69,6 +69,12 @@ public class TrafficProgramDetector {
                                         programExists = true;
                                         buffer.remove(candidate);
                                         break;
+                                    } else if (Math.pow(program.getFirstPhaseDuration() - candidatePhases[0], 2) >= ANOMALY_THRESHOLD ||
+                                            Math.pow(program.getSecondPhaseDuration() - candidatePhases[1], 2) >= ANOMALY_THRESHOLD ||
+                                            Math.pow(program.getThirdPhaseDuration() - candidatePhases[2], 2) >= ANOMALY_THRESHOLD) {
+                                        program.setAnomaly(true);
+                                        program.setWeight(0);
+                                        roadControllerProgramRepository.save(program);
                                     }
                                 }
                             }

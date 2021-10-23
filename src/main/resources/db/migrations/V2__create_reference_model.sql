@@ -9,4 +9,5 @@ CREATE TABLE road_controller_program
     third_phase_duration  BIGINT NOT NULL,
     weight                INT    NOT NULL,
     updated               TIMESTAMP DEFAULT current_timestamp(),
+    anomaly               BOOLEAN   DEFAULT false
 );
