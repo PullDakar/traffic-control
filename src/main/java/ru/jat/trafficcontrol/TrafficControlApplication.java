@@ -13,9 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class TrafficControlApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(TrafficControlApplication.class, args);
     }
-
 }
