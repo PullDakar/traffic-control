@@ -64,7 +64,7 @@ class TrafficLightServiceTest {
         var request = CustomPhaseProgramRequest.builder()
                 .phases(phases)
                 .startPhaseId(1L)
-                .timeStartSync(1L)
+                .timeStartSync(1635003300L)
                 .tCycle(95L)
                 .build();
         //Все фазы = 95 штатно.
