@@ -11,19 +11,24 @@ import lombok.*;
 @AllArgsConstructor
 public class Phase {
 
-    private Long id;
+    /*
+    * Время фазы = tOsn + tProm >= tMin + tProm
+    * Время цикла = Сумма времени всех фаз (Phase1+Phase2+Phase3)
+    * */
+
+    private Long id; //номер фазы
 
     @JsonProperty("t_osn")
-    private Long tOsn;
+    private Long tOsn; //время основного горения зеленого
 
     @JsonProperty("t_prom")
-    private Long tProm;
+    private Long tProm; //время промежуточного такта
 
     @JsonProperty("t_min")
-    private Long tMin;
+    private Long tMin; //время минимального горения зеленого
 
     @JsonProperty("is_hidden")
-    private Boolean isHidden;
+    private Boolean isHidden; //признак специальной фазы (у участников таких фаз нет)
 
-    private Integer[] directions;
+    private Integer[] directions; //номера направлений, учавствующих в фазе
 }

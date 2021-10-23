@@ -7,6 +7,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.jat.trafficcontrol.model.CustomPhaseProgramRequest;
+import ru.jat.trafficcontrol.model.CustomPhaseProgramResponse;
 import ru.jat.trafficcontrol.model.MonitoringEntity;
 import ru.jat.trafficcontrol.model.TrafficLightStatus;
 import ru.jat.trafficcontrol.repository.MonitoringRepository;
@@ -108,5 +110,9 @@ public class TrafficLightService {
 
     private TrafficLightStatus getTrafficLightStatus(Long id) {
         return restTemplate.getForObject("/" + id + "/status", TrafficLightStatus.class);
+    }
+
+    public CustomPhaseProgramResponse changeProgram(Long id,CustomPhaseProgramRequest customPhaseProgramRequest) {
+        return restTemplate.postForObject("/" + id +"/custom_phase_program", customPhaseProgramRequest, CustomPhaseProgramResponse.class);
     }
 }
