@@ -5,12 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import ru.jat.trafficcontrol.model.MonitoringEntity;
-import ru.jat.trafficcontrol.model.ProgramBundle;
-import ru.jat.trafficcontrol.repository.ProgramPhaseRepository;
+import ru.jat.trafficcontrol.model.ProgramCandidate;
+import ru.jat.trafficcontrol.model.RoadControllerProgramEntity;
 import ru.jat.trafficcontrol.repository.RoadControllerProgramRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -18,10 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TrafficProgramDetector {
     private final RoadControllerProgramRepository roadControllerProgramRepository;
-    private final ProgramPhaseRepository programPhaseRepository;
 
-    private final List<ProgramBundle> bundles = new ArrayList<>();
-    private final List<ProgramBundle> programs = new ArrayList<>();
+    private final List<ProgramCandidate> buffer = new ArrayList<>();
 
     private final static int POSSIBLE_PHASE_DIFF = 3 * 3;
 
@@ -31,45 +28,66 @@ public class TrafficProgramDetector {
         final var phaseId = monitoringEntity.getPhaseId();
         final var phaseDuration = monitoringEntity.getPhaseDuration();
 
-        if (bundles.stream().noneMatch(bundle -> bundle.getRoadControllerId() == roadControllerId)) {
-            final var programBundle = new ProgramBundle(roadControllerId);
+        if (buffer.stream().noneMatch(bundle -> bundle.getRoadControllerId() == roadControllerId)) {
+            final var programBundle = new ProgramCandidate(roadControllerId);
             programBundle.getPhases()[(int) phaseId - 1] = phaseDuration;
-            bundles.add(programBundle);
+            buffer.add(programBundle);
         } else {
-            bundles.stream()
-                    .filter(bundle -> bundle.getRoadControllerId() == roadControllerId)
-                    .forEach(bundle -> {
-                        long[] phases = bundle.getPhases();
-                        if (phases[(int) phaseId - 1] == 0) {
-                            phases[(int) phaseId - 1] = phaseDuration;
-                        }
+            for (ProgramCandidate candidate : new ArrayList<>(buffer)) {
+                if (candidate.getRoadControllerId() == roadControllerId) {
+                    long[] phases = candidate.getPhases();
+                    if (phases[(int) phaseId - 1] == 0) {
+                        phases[(int) phaseId - 1] = phaseDuration;
+                    }
 
-                        if (phases[0] * phases[1] * phases[2] != 0) {
-                            if (programs.isEmpty())
-                                programs.add(bundle);
-                            else {
-                                boolean programExists = false;
-                                for (ProgramBundle program : programs) {
-                                    if (program.getRoadControllerId() == bundle.getRoadControllerId()) {
+                    if (phases[0] * phases[1] * phases[2] != 0) {
+                        List<RoadControllerProgramEntity> programs
+                                = roadControllerProgramRepository.findAllByRoadControllerId(roadControllerId);
+                        if (programs.isEmpty()) {
+                            roadControllerProgramRepository.save(RoadControllerProgramEntity.builder()
+                                    .roadControllerId(roadControllerId)
+                                    .programName("program#" + monitoringEntity.getProgramId())
+                                    .firstPhaseDuration(phases[0])
+                                    .secondPhaseDuration(phases[1])
+                                    .thirdPhaseDuration(phases[2])
+                                    .weight(candidate.getWeight()).build());
+
+                            buffer.remove(candidate);
+                        } else {
+                            boolean programExists = false;
+                            for (RoadControllerProgramEntity program : programs) {
+                                if (program.getRoadControllerId() == candidate.getRoadControllerId()) {
+
+                                    long[] candidatePhases = candidate.getPhases();
+
+                                    log.info("!!!!! Trying to choose. If it only candidate or new task");
+                                    if (Math.pow(program.getFirstPhaseDuration() - candidatePhases[0], 2) <= POSSIBLE_PHASE_DIFF &&
+                                            Math.pow(program.getSecondPhaseDuration() - candidatePhases[1], 2) <= POSSIBLE_PHASE_DIFF &&
+                                            Math.pow(program.getThirdPhaseDuration() - candidatePhases[2], 2) <= POSSIBLE_PHASE_DIFF) {
+                                        program.setWeight(program.getWeight() + 1);
+                                        roadControllerProgramRepository.save(program);
                                         programExists = true;
-                                        long[] programPhases = program.getPhases();
-                                        long[] bundlePhases = bundle.getPhases();
-
-                                        if (Math.pow(programPhases[0] - bundlePhases[0], 2) < POSSIBLE_PHASE_DIFF &&
-                                                Math.pow(programPhases[1] - bundlePhases[1], 2) < POSSIBLE_PHASE_DIFF &&
-                                                Math.pow(programPhases[2] - bundlePhases[2], 2) < POSSIBLE_PHASE_DIFF) {
-                                            program.setCounter(program.getCounter() + 1);
-                                        } else {
-                                            programs.add(bundle);
-                                        }
+                                        buffer.remove(candidate);
+                                        break;
                                     }
                                 }
+                            }
 
-                                if (!programExists)
-                                    programs.add(bundle);
+                            if (!programExists) {
+                                roadControllerProgramRepository.save(RoadControllerProgramEntity.builder()
+                                        .roadControllerId(roadControllerId)
+                                        .programName("program#" + monitoringEntity.getProgramId())
+                                        .firstPhaseDuration(phases[0])
+                                        .secondPhaseDuration(phases[1])
+                                        .thirdPhaseDuration(phases[2])
+                                        .weight(candidate.getWeight()).build());
+
+                                buffer.remove(candidate);
                             }
                         }
-                    });
+                    }
+                }
+            }
         }
     }
 }

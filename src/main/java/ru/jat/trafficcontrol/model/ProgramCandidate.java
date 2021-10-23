@@ -9,8 +9,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class ProgramBundle {
+public class ProgramCandidate {
     private final long roadControllerId;
     private final long[] phases = new long[3];
-    private int counter = 0;
+    private int weight = 1;
 }
