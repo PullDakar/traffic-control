@@ -3,6 +3,7 @@ package ru.jat.trafficcontrol.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -32,4 +33,6 @@ public class RoadControllerProgramEntity {
     private int weight;
     @Column(name = "anomaly")
     private boolean anomaly;
+    @Column(name = "updated")
+    private Timestamp updated;
 }
