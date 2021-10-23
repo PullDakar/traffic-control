@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Service
@@ -25,6 +26,7 @@ public class ChangeProgramService {
     private final RoadControllerProgramRepository roadControllerProgramRepository;
     private final Map<Long, CustomPhaseProgramRequest> customPhaseProgramRequestMap;
     private final TrafficLightService trafficLightService;
+
 
     @Scheduled(fixedRate = 1_000)
     public void changeProgramSchedule33051() {

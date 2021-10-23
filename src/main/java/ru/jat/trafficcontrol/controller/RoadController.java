@@ -11,6 +11,7 @@ import ru.jat.trafficcontrol.service.TrafficLightService;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Контроллер для взаимодействия с дорожной инфраструктурой
@@ -21,11 +22,12 @@ import java.util.Map;
 public class RoadController {
 
     private final ChangeProgramOrderRepository changeProgramOrderRepository;
-    private final Map<Long, CustomPhaseProgramRequest> customPhaseProgramRequestMap;
+    private final Map<Integer, CustomPhaseProgramRequest> customPhaseProgramRequestMap;
     private final TrafficLightService trafficLightService;
+    private final AtomicInteger programIdAtomic = new AtomicInteger(1);
 
-    @PostMapping("/program")
-    public ResponseEntity<Void> changeProgram(@RequestParam Long roadControllerId, @RequestParam Timestamp changeTime, @RequestParam Long programId) {
+    @PostMapping("/program/{programId}/apply")
+    public ResponseEntity<Void> changeProgram(@RequestParam Long roadControllerId, @RequestParam Timestamp changeTime, @PathVariable("programId") Long programId) {
         if (customPhaseProgramRequestMap.containsKey(programId)) {
             var changeProgramOrder = ChangeProgramOrder.builder()
                     .newProgramId(programId)
@@ -40,10 +42,12 @@ public class RoadController {
         }
     }
 
-    @PostMapping("/program/{programId}")
-    public void addProgram(@PathVariable Long programId, @RequestBody CustomPhaseProgramRequest customPhaseProgramRequest) {
+    @PostMapping("/program")
+    public ResponseEntity<Integer> addProgram(@RequestBody CustomPhaseProgramRequest customPhaseProgramRequest) {
+        var programId = programIdAtomic.getAndIncrement();
         log.debug("Add program id: " + programId + customPhaseProgramRequest.toString());
         customPhaseProgramRequestMap.putIfAbsent(programId, customPhaseProgramRequest);
+        return ResponseEntity.ok(programId);
     }
 
     @PostMapping("/program/setLocal")
