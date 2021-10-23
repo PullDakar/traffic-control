@@ -1,6 +1,7 @@
 package ru.jat.trafficcontrol.model;
 
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -33,6 +34,7 @@ public class RoadControllerProgramEntity {
     private int weight;
     @Column(name = "anomaly")
     private boolean anomaly;
+    @UpdateTimestamp
     @Column(name = "updated")
     private Timestamp updated;
 }
