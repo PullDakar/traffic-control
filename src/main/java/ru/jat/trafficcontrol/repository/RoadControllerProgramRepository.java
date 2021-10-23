@@ -22,6 +22,13 @@ public interface RoadControllerProgramRepository extends JpaRepository<RoadContr
      */
     List<RoadControllerProgramEntity> findAllByRoadControllerId(Long roadControllerId);
 
+    /**
+     *  Поиск программы, запущенной на контроллере
+     *
+     * @param roadControllerId - идентификатор контроллера
+     *
+     * @return программа, запущенная на контроллере
+     */
     @Query("select rcpe from RoadControllerProgramEntity rcpe where rcpe.weight >= 3 and rcpe.roadControllerId = ?1 order by rcpe.updated desc")
     Optional<RoadControllerProgramEntity> findCurrentProgram(Long roadControllerId);
 }
