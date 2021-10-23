@@ -31,6 +31,46 @@ public class ChangeProgramService {
         changeProgram(33052L);
     }
 
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33053() {
+        changeProgram(33053L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33054() {
+        changeProgram(33054L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33055() {
+        changeProgram(33055L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33056() {
+        changeProgram(33056L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33057() {
+        changeProgram(33057L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33058() {
+        changeProgram(33058L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33059() {
+        changeProgram(33059L);
+    }
+
+    @Scheduled(fixedDelay = 1_000)
+    public void changeProgramSchedule33060() {
+        changeProgram(33060L);
+    }
+
     private void changeProgram(Long id) {
         var changeProgramOrder = changeProgramOrderRepository.findTop1ByRoadControllerIdOrderByChangeTime(id).orElse(null);
         if (changeProgramOrder != null && customPhaseProgramRequestMap.containsKey(changeProgramOrder.getNewProgramId())) {
