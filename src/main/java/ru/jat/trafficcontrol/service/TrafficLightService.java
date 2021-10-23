@@ -89,7 +89,7 @@ public class TrafficLightService {
             var previous = trafficLightStatusMap.get(id);
             if (!trafficLightStatus.getCurrentPhaseId().equals(previous.getCurrentPhaseId())) {
                 var monitoringEntity = MonitoringEntity.builder()
-                        .phaseId(trafficLightStatus.getCurrentPhaseId())
+                        .phaseId(previous.getCurrentPhaseId())
                         .programId(trafficLightStatus.getCurrentProgramId() != null ? trafficLightStatus.getCurrentProgramId() : -1)
                         .phaseDuration(trafficLightStatus.getTime() - previous.getTime())
                         .roadControllerId(id)
