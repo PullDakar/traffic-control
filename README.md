@@ -16,7 +16,7 @@ java –jar traffic-control-0.0.1-SNAPSHOT.jar
 ```
 http://<хост>:<порт>/h2
 
-http://<хост>:<порт>/swagger-ui.html
+http://<хост>:<порт>/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
 ```
 
 ## Общее описание сервиса
