@@ -12,6 +12,16 @@ java –jar traffic-control-0.0.1-SNAPSHOT.jar
 
 **В домашней директории должен появиться файл monitoring.mv.db**
 
+### Интерфейс
+
+http://localhost:8080/h2/
+
+![h2](https://github.com/PullDakar/traffic-control/blob/develop/h2.png)
+
+http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#
+
+![sw](https://github.com/PullDakar/traffic-control/blob/develop/sw.png)
+
 ## Общее описание сервиса
 
 Сервис обеспечивает:
