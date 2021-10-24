@@ -24,13 +24,13 @@ class ChangeProgramOrderRepositoryTest {
     void findTop1ByRoadControllerIdOrderByChangeTime() {
         var a = ChangeProgramOrder.builder()
                 .changeTime(Timestamp.valueOf(LocalDateTime.now()))
-                .newProgramId(1L)
+                .newProgramId(1)
                 .roadControllerId(9999).build();
         changeProgramOrderRepository.save(a);
 
         var b = ChangeProgramOrder.builder()
                 .changeTime(Timestamp.valueOf(LocalDateTime.now()))
-                .newProgramId(2L)
+                .newProgramId(2)
                 .roadControllerId(9999).build();
         changeProgramOrderRepository.save(b);
 

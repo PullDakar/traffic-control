@@ -17,7 +17,7 @@ public class CacheConfig {
      * @return кэш программ для взаимодействия с очередью программ
      */
     @Bean
-    public Map<Long, CustomPhaseProgramRequest> customPhaseProgramRequestMap() {
+    public Map<Integer, CustomPhaseProgramRequest> customPhaseProgramRequestMap() {
         return new ConcurrentHashMap<>();
     }
 }

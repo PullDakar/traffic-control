@@ -45,8 +45,8 @@ public class RoadController {
     @PostMapping("/program")
     public ResponseEntity<Integer> addProgram(@RequestBody CustomPhaseProgramRequest customPhaseProgramRequest) {
         var programId = programIdAtomic.getAndIncrement();
-        log.debug("Add program id: " + programId + customPhaseProgramRequest.toString());
-        customPhaseProgramRequestMap.putIfAbsent(programId, customPhaseProgramRequest);
+        log.info("Add program id: " + programId + " " + customPhaseProgramRequest.toString());
+        customPhaseProgramRequestMap.put(programId, customPhaseProgramRequest);
         return ResponseEntity.ok(programId);
     }
 

@@ -23,7 +23,7 @@ public class ChangeProgramService {
 
     private final ChangeProgramOrderRepository changeProgramOrderRepository;
     private final RoadControllerProgramRepository roadControllerProgramRepository;
-    private final Map<Long, CustomPhaseProgramRequest> customPhaseProgramRequestMap;
+    private final Map<Integer, CustomPhaseProgramRequest> customPhaseProgramRequestMap;
     private final TrafficLightService trafficLightService;
 
 

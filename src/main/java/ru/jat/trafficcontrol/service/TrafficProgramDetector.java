@@ -35,11 +35,11 @@ public class TrafficProgramDetector {
     /**
      * Аномальное отклонение
      */
-    private final static int ANOMALY_THRESHOLD = 30 * 30;
+    private final static int ANOMALY_THRESHOLD = 100 * 100;
 
     /**
      * Слушатель событий изменений фазы
-     *
+     * <p>
      * Реализует основную логику отсеивания программ от программ-кандидатов и программ-аномалий
      *
      * @param monitoringEntity - сущность, описывающая фазу мониторинга
