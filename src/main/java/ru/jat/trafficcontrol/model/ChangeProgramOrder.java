@@ -24,7 +24,7 @@ public class ChangeProgramOrder {
     private long roadControllerId;
 
     @Column(name = "new_program_id")
-    private long newProgramId;
+    private int newProgramId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "change_time")

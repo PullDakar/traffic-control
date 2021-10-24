@@ -45,7 +45,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33051
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33051() {
         saveTrafficLightStatus(33051L);
     }
@@ -54,7 +54,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33052
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33052() {
         saveTrafficLightStatus(33052L);
     }
@@ -63,7 +63,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33053
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33053() {
         saveTrafficLightStatus(33053L);
     }
@@ -72,7 +72,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33054
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33054() {
         saveTrafficLightStatus(33054L);
     }
@@ -81,7 +81,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33055
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33055() {
         saveTrafficLightStatus(33055L);
     }
@@ -90,7 +90,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33056
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33056() {
         saveTrafficLightStatus(33056L);
     }
@@ -99,7 +99,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33057
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33057() {
         saveTrafficLightStatus(33057L);
     }
@@ -108,7 +108,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33058
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33058() {
         saveTrafficLightStatus(33058L);
     }
@@ -117,7 +117,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33059
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33059() {
         saveTrafficLightStatus(33059L);
     }
@@ -126,7 +126,7 @@ public class TrafficLightService {
      * Шедулер, наполняющий таблицу мониторинга в части ДК с идентификатором 33060
      */
     @Async
-    @Scheduled(fixedDelay = 500)
+    @Scheduled(fixedRate = 500)
     public void schedule33060() {
         saveTrafficLightStatus(33060L);
     }
@@ -138,7 +138,7 @@ public class TrafficLightService {
      */
     private void saveTrafficLightStatus(Long id) {
         var trafficLightStatus = getTrafficLightStatus(id);
-        log.info(trafficLightStatus.toString());
+        //log.info(trafficLightStatus.toString());
         if (trafficLightStatusMap.containsKey(id)) {
             var previous = trafficLightStatusMap.get(id);
             if (!trafficLightStatus.getCurrentPhaseId().equals(previous.getCurrentPhaseId())) {
@@ -151,7 +151,7 @@ public class TrafficLightService {
                 monitoringRepository.save(monitoringEntity);
                 publisher.publishEvent(monitoringEntity);
                 trafficLightStatusMap.put(id, trafficLightStatus);
-                log.info(monitoringEntity.toString());
+          //      log.info(monitoringEntity.toString());
             }
         } else {
             trafficLightStatusMap.put(id, trafficLightStatus);
