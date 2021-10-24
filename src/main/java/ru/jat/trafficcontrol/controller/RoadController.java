@@ -1,5 +1,9 @@
 package ru.jat.trafficcontrol.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +30,17 @@ public class RoadController {
     private final TrafficLightService trafficLightService;
     private final AtomicInteger programIdAtomic = new AtomicInteger(1);
 
+    @Operation(summary = "Установка программы в очередь на применение в заданный момент времени на ДК")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Выполнено успешно"),
+    })
     @PostMapping("/program/{programId}/apply")
-    public ResponseEntity<Void> changeProgram(@RequestParam Long roadControllerId, @RequestParam Timestamp changeTime, @PathVariable("programId") Integer programId) {
+    public ResponseEntity<Void> changeProgram(@Parameter(description = "Идентификатор ДК", example = "33051")
+                                              @RequestParam Long roadControllerId,
+                                              @Parameter(description = "Временная отметка изменения программы ДК", example = "2021-10-22 23:35:00")
+                                              @RequestParam Timestamp changeTime,
+                                              @Parameter(description = "Идентификатор программы", example = "1")
+                                              @PathVariable("programId") Integer programId) {
         if (customPhaseProgramRequestMap.containsKey(programId)) {
             var changeProgramOrder = ChangeProgramOrder.builder()
                     .newProgramId(programId)
@@ -42,6 +55,10 @@ public class RoadController {
         }
     }
 
+    @Operation(summary = "Добавление новой программы в кэш программ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Выполнено успешно"),
+    })
     @PostMapping("/program")
     public ResponseEntity<Integer> addProgram(@RequestBody CustomPhaseProgramRequest customPhaseProgramRequest) {
         var programId = programIdAtomic.getAndIncrement();
@@ -50,8 +67,13 @@ public class RoadController {
         return ResponseEntity.ok(programId);
     }
 
+    @Operation(summary = "Сброс программы на локальную на ДК")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Выполнено успешно"),
+    })
     @PostMapping("/program/setLocal")
-    public ResponseEntity setLocal(@RequestParam Long roadControllerId) {
+    public ResponseEntity setLocal(@Parameter(description = "Идентификатор ДК", example = "33051")
+                                   @RequestParam Long roadControllerId) {
         return trafficLightService.setLocal(roadControllerId);
     }
 }

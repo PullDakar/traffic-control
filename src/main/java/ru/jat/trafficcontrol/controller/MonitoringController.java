@@ -1,5 +1,8 @@
 package ru.jat.trafficcontrol.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,10 @@ public class MonitoringController {
      * @return полный набора информации из таблицы мониторинга
      */
     @GetMapping("/monitoring")
+    @Operation(summary = "Получение полного набора информации из таблицы мониторинга")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Выполнено успешно"),
+    })
     public ResponseEntity<List<MonitoringEntity>> getMonitoringData() {
         return ResponseEntity
                 .ok(monitoringRepository.findAll());
